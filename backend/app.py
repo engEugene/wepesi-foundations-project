@@ -14,6 +14,9 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 
+# import models for migrations to run
+from models.users import User
+
 class HelloWorld(Resource):
     def get(self):
         return {'hello': 'world'}
