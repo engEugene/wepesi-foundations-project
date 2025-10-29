@@ -16,6 +16,11 @@ bcrypt = Bcrypt(app)
 
 # import models for migrations to run
 from models.users import User
+from models.organizations import Organization
+from models.events import Event
+from models.participations import Participation
+from models.badges import Badge
+from models.user_badges import UserBadge
 
 class HelloWorld(Resource):
     def get(self):

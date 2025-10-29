@@ -8,6 +8,7 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     username = db.Column(db.String(120), unique=True, nullable=False)
+    phone_number = db.Column(db.Integer, unique=True, nullable=True)
     password = db.Column(db.String(255), nullable=False)
     role = db.Column(
         db.Enum("volunteer", "organization", "admin", name="user_roles"),
