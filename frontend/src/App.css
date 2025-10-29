@@ -60,6 +60,18 @@ a {
   color: #454953;
 }
 
+/* Badges Section */
+.badges {
+  display: flex;
+  color:aqua;
+  background: #1f2937;
+  text-align: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
 /* Card Styles (Opportunities, Badges) */
 .card {
   background-color: rgb(59, 7, 247);
