@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-white shadow-md h-16 flex  sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center px-6 py-3">
         <Link to="/" className="flex items-center gap-2">
           {/* <img src={logo} alt="Volunteer Logo" className="w-8 h-8" /> */}

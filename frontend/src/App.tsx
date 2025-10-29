@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
       <Navbar />
-      <main className="flex-grow">
+      <main className="">
         <AppRoutes />
       </main>
       <Footer />
