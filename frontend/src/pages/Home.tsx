@@ -3,7 +3,7 @@ import { homeContent } from "../data/content";
 
 const Home: React.FC = () => {
   return (
-    <section className="px-8 py-10 text-center">
+    <section className="px-8 py-10 flex flex-col  items-center text-center">
       <h1 className="text-3xl font-bold mb-2">{homeContent.heroTitle}</h1>
       <p className="text-gray-600 mb-4">{homeContent.heroSubtitle}</p>
       <button className="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700">
