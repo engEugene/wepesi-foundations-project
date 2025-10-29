@@ -1,10 +1,11 @@
 from datetime import datetime, timezone
 from app import db
+from .base import BaseModel
 
-class Organization(db.Model):
+class Organization(BaseModel):
     __tablename__ = "organizations"
 
-    id = db.Column(db.String(100), primary_key=True)
+    owner_id = db.Column(db.String(100), db.ForeignKey("users.id"), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
     contact_email = db.Column(db.String(120), unique=True, nullable=False)
@@ -17,3 +18,10 @@ class Organization(db.Model):
         default=lambda: datetime.now(timezone.utc),
         onupdate=lambda: datetime.now(timezone.utc)
     )
+
+    
+    owner = db.relationship("User", back_populates="organizations")
+    events = db.relationship("Event", back_populates="organization", lazy=True)
+
+    def __repr__(self):
+        return f"<Organization {self.name}>"

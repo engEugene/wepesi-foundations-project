@@ -1,10 +1,10 @@
 from datetime import datetime, timezone
 from app import db
+from .base import BaseModel
 
-class Participation(db.Model):
+class Participation(BaseModel):
     __tablename__ = "participations"
 
-    id = db.Column(db.String(100), primary_key=True)
     user_id = db.Column(db.String(100), db.ForeignKey('users.id'), nullable=False)
     event_id = db.Column(db.String(100), db.ForeignKey('events.id'), nullable=False)
     status = db.Column(db.String(20), nullable=False)
@@ -13,6 +13,6 @@ class Participation(db.Model):
     approved_at = db.Column(db.DateTime)
     completed_at = db.Column(db.DateTime)
 
-    # Relationships
-    user = db.relationship('User', backref='participations')
-    event = db.relationship('Event', backref='participations')
+    #Relationships
+    user = db.relationship("User", back_populates="participations")
+    event = db.relationship("Event", back_populates="participations")

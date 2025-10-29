@@ -1,10 +1,10 @@
 from datetime import datetime, timezone
 from app import db
+from .base import BaseModel
 
-class Badge(db.Model):
+class Badge(BaseModel):
     __tablename__ = "badges"
 
-    id = db.Column(db.String(100), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
     criteria = db.Column(db.Text, nullable=False)
@@ -15,3 +15,9 @@ class Badge(db.Model):
         default=lambda: datetime.now(timezone.utc),
         onupdate=lambda: datetime.now(timezone.utc)
     )
+
+   
+    user_badges = db.relationship("UserBadge", back_populates="badge", lazy=True)
+
+    def __repr__(self):
+        return f"<Badge {self.name}>"

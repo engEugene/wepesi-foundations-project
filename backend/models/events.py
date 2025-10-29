@@ -1,10 +1,10 @@
 from datetime import datetime, timezone
 from app import db
+from .base import BaseModel
 
-class Event(db.Model):
+class Event(BaseModel):
     __tablename__ = "events"
 
-    id = db.Column(db.String(100), primary_key=True)
     organization_id = db.Column(db.String(100), db.ForeignKey('organizations.id'), nullable=False)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
@@ -19,5 +19,7 @@ class Event(db.Model):
         onupdate=lambda: datetime.now(timezone.utc)
     )
 
-    # Relationship with Organization model
-    organization = db.relationship('Organization', backref='events')
+   
+    organization = db.relationship("Organization", back_populates="events")
+    participations = db.relationship("Participation", back_populates="event", lazy=True)
+    user_badges = db.relationship("UserBadge", back_populates="event", lazy=True)

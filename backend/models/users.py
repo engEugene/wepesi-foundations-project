@@ -1,10 +1,10 @@
 from datetime import datetime, timezone
 from app import db, bcrypt
+from .base import BaseModel
 
-class User(db.Model):
+class User(BaseModel):
     __tablename__ = "users"
 
-    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     username = db.Column(db.String(120), unique=True, nullable=False)
@@ -22,6 +22,11 @@ class User(db.Model):
         default=lambda: datetime.now(timezone.utc),
         onupdate=lambda: datetime.now(timezone.utc)
     )
+
+    
+    organizations = db.relationship("Organization", back_populates="owner", lazy=True)
+    participations = db.relationship("Participation", back_populates="user", lazy=True)
+    user_badges = db.relationship("UserBadge", back_populates="user", lazy=True)
 
     def set_password(self, password):
         self.password = bcrypt.generate_password_hash(password).decode("utf-8")
