@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_restful import Resource, Api
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_bcrypt import Bcrypt
+from config.database import db, bcrypt
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -10,9 +10,10 @@ api = Api(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///volunteer.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-db = SQLAlchemy(app)
+
+db.init_app(app)
+bcrypt.init_app(app)
 migrate = Migrate(app, db)
-bcrypt = Bcrypt(app)
 
 # import models for migrations to run
 from models.users import User

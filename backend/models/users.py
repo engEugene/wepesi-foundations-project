@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from app import db, bcrypt
+from config.database import db, bcrypt
 from .base import BaseModel
 
 class User(BaseModel):
