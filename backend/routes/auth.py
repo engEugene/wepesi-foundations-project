@@ -61,6 +61,7 @@ class LoginUser(Resource):
                 "email": user.email,
                 "username": user.username,
                 "role": user.role,
+                "is_org_onboarded": user.is_org_onboarded
             }})
 
         access_token = create_access_token(
