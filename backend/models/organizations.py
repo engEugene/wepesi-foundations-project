@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from app import db
+from config.database import db
 from .base import BaseModel
 
 class Organization(BaseModel):
