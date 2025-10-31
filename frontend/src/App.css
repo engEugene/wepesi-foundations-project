@@ -167,3 +167,33 @@ a {
     font-size: 0.8rem;
   }
 }
+
+
+/* Organization and Volunteer Profile Setup Styles */
+.profile-setup {  
+  background-color: #06f370;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(148, 93, 93, 0.1);
+}
+.profile-setup h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+.profile-setup form {
+  display: flex;
+  flex-direction: column;
+}
+.profile-setup label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.profile-setup input,
+.profile-setup select,
+.profile-setup textarea {
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
