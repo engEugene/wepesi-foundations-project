@@ -28,37 +28,64 @@ export const homeContent = {
 // Opportunities Page
 export const opportunitiesData = [
   {
-    id: 1,
-    title: "Tree Planting in Karura Forest",
-    organization: "EcoServe Kenya",
+     id: 1,
+    title: "Tree Planting for Greener Kigali",
+    organization: "EcoServe Rwanda",
     duration: "1 Day (Nov 15)",
-    location: "Nairobi Arboretum",
-    category: "Reforestation",
+    location: "Nyandungu Urban Wetland Park, Kigali",
+    category: "Environment",
     description:
-      "Help restore Kenya’s forest cover by planting indigenous trees and learning about biodiversity protection.",
-    image: "/src/images/placeholder.png",
+      "Join fellow students and local youth in restoring Kigali’s green spaces by planting indigenous trees and promoting urban biodiversity. Tools and refreshments will be provided.",
   },
   {
     id: 2,
-    title: "Beach Cleanup Drive",
-    organization: "Green Youth Alliance",
-    duration: "Weekend (Nov 23–24)",
-    location: "Mombasa, Kenya",
-    category: "Marine Conservation",
+    title: "Waste Sorting and Recycling Workshop",
+    organization: "Clean City Initiative",
+    duration: "3 Days (Nov 20–22)",
+    location: "Kacyiru Sector, Kigali",
+    category: "Sustainability",
     description:
-      "Join students and environmentalists in cleaning up coastal beaches and reducing plastic pollution.",
-    image: "/src/images/placeholder.png",
+      "Help raise awareness about proper waste management by teaching sorting techniques and creating recyclable art projects for local schools.",
   },
   {
     id: 3,
-    title: "Community Climate Awareness Workshop",
-    organization: "EcoFuture Initiative",
-    duration: "2 Days (Dec 5–6)",
-    location: "Kisumu, Kenya",
-    category: "Climate Education",
+    title: "Tutoring Underprivileged Students",
+    organization: "Bright Minds Rwanda",
+    duration: "2 Weeks (Dec 1–14)",
+    location: "Gatsata Community Center, Kigali",
+    category: "Education",
     description:
-      "Facilitate workshops that teach communities about renewable energy and sustainable living practices.",
-    image: "/src/images/placeholder.png",
+      "Volunteer as a tutor to support primary school learners in literacy and numeracy. Training and materials will be provided before sessions begin.",
+  },
+  {
+    id: 4,
+    title: "Community Health Awareness Drive",
+    organization: "Wellbeing for All",
+    duration: "1 Week (Dec 5–12)",
+    location: "Nyarugenge District, Kigali",
+    category: "Health",
+    description:
+      "Collaborate with local health volunteers to raise awareness on hygiene, nutrition, and preventive care. Great for students interested in healthcare and public health.",
+  },
+  {
+    id: 5,
+    title: "Lake Muhazi Cleanup Challenge",
+    organization: "Green Youth Movement",
+    duration: "1 Day (Dec 10)",
+    location: "Lake Muhazi Shoreline, Kigali Outskirts",
+    category: "Environment",
+    description:
+      "Spend a day with an energetic team cleaning up the lakeshore to protect aquatic life and restore natural beauty. Transportation and lunch included.",
+  },
+  {
+    id: 6,
+    title: "Tech for Sustainability Hackathon",
+    organization: "Innovate Rwanda",
+    duration: "3 Days (Jan 10–12)",
+    location: "KLab Innovation Hub, Kigali",
+    category: "Technology",
+    description:
+      "Join other innovators in designing digital tools and solutions for sustainability challenges in Kigali. No prior coding experience required.",
   },
 ];
 
@@ -92,9 +119,11 @@ export const badgesData = [
 
 // Default Profile Data
 export const defaultProfile = {
+  photo: "/src/images/placeholder.png",
   name: "Leila Omol",
   title: "Student Environmentalist | ALU Volunteer Enthusiast",
   bio: "Dedicated to creating a cleaner, greener, and more sustainable future through active community service.",
+  school: "African Leadership University",
   hours: 40,
   completedActivities: 5,
   badges: ["Environmentalist", "Contributor"],

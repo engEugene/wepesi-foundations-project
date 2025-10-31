@@ -106,14 +106,14 @@ a {
 .footer {
   background-color: #1a4d2e;
   color: #e5e7eb;
-  padding: 2rem;
+  padding: 4rem;
   text-align: center;
   font-size: 0.9rem;
 }
 
 .footer a {
-  color: #9ee6a6;
-  margin: 0 0.5rem;
+  color: #013d08;
+  margin: 4rem;
 }
 
 .footer a:hover {
