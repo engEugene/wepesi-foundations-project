@@ -36,6 +36,7 @@ export const opportunitiesData = [
     category: "Environment",
     description:
       "Join fellow students and local youth in restoring Kigali’s green spaces by planting indigenous trees and promoting urban biodiversity. Tools and refreshments will be provided.",
+    //Image:
   },
   {
     id: 2,
@@ -46,6 +47,7 @@ export const opportunitiesData = [
     category: "Sustainability",
     description:
       "Help raise awareness about proper waste management by teaching sorting techniques and creating recyclable art projects for local schools.",
+    //Image:
   },
   {
     id: 3,
@@ -56,6 +58,7 @@ export const opportunitiesData = [
     category: "Education",
     description:
       "Volunteer as a tutor to support primary school learners in literacy and numeracy. Training and materials will be provided before sessions begin.",
+    //Image:
   },
   {
     id: 4,
@@ -66,6 +69,7 @@ export const opportunitiesData = [
     category: "Health",
     description:
       "Collaborate with local health volunteers to raise awareness on hygiene, nutrition, and preventive care. Great for students interested in healthcare and public health.",
+    //Image:
   },
   {
     id: 5,
@@ -76,7 +80,8 @@ export const opportunitiesData = [
     category: "Environment",
     description:
       "Spend a day with an energetic team cleaning up the lakeshore to protect aquatic life and restore natural beauty. Transportation and lunch included.",
-  },
+    //Image:
+    },
   {
     id: 6,
     title: "Tech for Sustainability Hackathon",
@@ -86,7 +91,8 @@ export const opportunitiesData = [
     category: "Technology",
     description:
       "Join other innovators in designing digital tools and solutions for sustainability challenges in Kigali. No prior coding experience required.",
-  },
+    //Image:
+   },
 ];
 
 // Badges
