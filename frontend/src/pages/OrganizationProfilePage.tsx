@@ -1,5 +1,7 @@
 import OrganizationProfileForm from "../components/OrganizationProfileForm";
 
-export default function OrganizationProfilePage() {
+function OrganizationProfilePage() {
   return <OrganizationProfileForm />;
 }
+
+export default OrganizationProfilePage;

@@ -1,5 +1,7 @@
 import VolunteerProfileForm from "../components/VolunteerProfileForm";
 
-export default function VolunteerProfilePage() {
+function VolunteerProfilePage() {
   return <VolunteerProfileForm />;
 }
+
+export default VolunteerProfilePage;
