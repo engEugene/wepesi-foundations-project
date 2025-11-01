@@ -3,13 +3,14 @@ from flask_restful import Resource, Api
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from config.database import db, bcrypt
-from config import Config
+
 
 app = Flask(__name__)
 api = Api(app)
 
-# Load configuration from config.py
-app.config.from_object(Config)
+#temp database configurations
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///volunteer.db" 
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 app.config["JWT_SECRET_KEY"] = "super-secret" # will later change this 
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
@@ -43,11 +44,13 @@ def user_lookup_callback(_jwt_header, jwt_data):
 from routes.auth import RegisterUser, LoginUser, LogoutUser, OnboardOrganisation
 
 
-
+# authentication resource registrations
 api.add_resource(RegisterUser, '/api/auth/register')
 api.add_resource(LoginUser, '/api/auth/login')
 api.add_resource(LogoutUser, '/api/auth/logout')
 api.add_resource(OnboardOrganisation, '/api/auth/onboard-organization')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
