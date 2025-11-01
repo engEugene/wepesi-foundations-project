@@ -1,10 +1,10 @@
-### Wepesi-Foundations-Project
+## Wepesi-Foundations-Project
 
-## A Flask backend for the Foundations Project (Volunteer Platform).
+### A Flask backend for the Foundations Project (Volunteer Platform).
 
 This shows how to set up and run the Flask application locally after cloning the repository.
 
-## Prerequisites
+### Prerequisites
 
 - Python 3.8 or newer. Verify with:
 
@@ -15,7 +15,7 @@ python3 --version
 - Git
 
 
-## Quick start
+### Quick start
 
 1. Clone the repository into the directory you want the code to be locally and cd to the backend folder:
 
@@ -54,27 +54,53 @@ flask db upgrade
 5. Run the application in development mode:
 
 ```bash
-python3 app.py
+python3 manage.py
+```
+or
+```bash
+#set environment to run in debug mode
+export FLASK_ENV=development 
+export FLASK_DEBUG=1
+
+flask run
 ```
 
 Visit the server at http://127.0.0.1:5000
 
-## Project layout
+### Project layout
 
-- `app.py` — application entrypoint (creates Flask app and registers routes)
-- `models` — data models and helpers
-- `requirements.txt` — Python dependencies
-- `migrations` - Contains database migration files. These files are used to manage changes to the database schema
+Top-level files and directories:
 
-Adjust paths above if your files are located elsewhere.
+- `manage.py` — development entrypoint / Flask CLI helper (project runner)
+- `wsgi.py` — WSGI entrypoint used by production servers
+- `readme.md` — this file
+- `requirements.txt` — pinned Python dependencies
+- `instance/` — instance-specific configuration (kept out of VCS)
+- `migrations/` — Alembic migration scripts (database schema history)
+- `tests/` — unit and functional tests
+- `app/` — main application package
 
-## Environment variables
+Inside `app/` (key files and folders):
+
+- `app/app.py` — creates and configures the Flask application, registers blueprints
+- `app/__init__.py` — package initialization
+- `app/config/` — configuration and database setup
+	- `settings.py` — configuration settings
+	- `database.py` — database connection/setup helpers
+- `app/models/` — SQLAlchemy models (users, events, organizations, badges, participations, etc.)
+- `app/routes/` — route / blueprint modules (for example `auth.py`)
+
+Migration scripts live under `migrations/versions/` and are managed with Alembic.
+
+Adjust paths above if you are running the code from a different working directory.
+
+### Environment variables
 
 Set environment variables before running the app. Common variables:
 
 If you need to store secrets (API keys, DB URIs), prefer using a `.env` file and `python-dotenv` to load them in development.
 
-## Common commands
+### Common commands
 
 - Run the app directly with Python (alternative to `flask run`):
 
@@ -89,7 +115,6 @@ pip3 install <package>
 pip3 freeze > requirements.txt
 ```
 
-## Testing
+### Testing
 
 There are no automated tests included yet. To add tests, create a `tests/` directory and use `pytest`.
-
