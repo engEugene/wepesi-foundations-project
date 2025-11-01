@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from app import db, bcrypt
+from config.database import db, bcrypt
 from .base import BaseModel
 
 class User(BaseModel):
@@ -16,6 +16,7 @@ class User(BaseModel):
         default="volunteer"
     )
     total_volunteer_hours = db.Column(db.Numeric(5,2), default=0)
+    is_org_onboarded = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     updated_at = db.Column(
         db.DateTime,

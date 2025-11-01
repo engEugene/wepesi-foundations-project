@@ -11,6 +11,8 @@ instance/*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 model/__pycache__/
+routes/__pycache__/
+config/__pycache__/
 *.py[cod]
 *$py.class
 
