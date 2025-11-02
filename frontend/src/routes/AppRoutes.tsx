@@ -8,6 +8,7 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import VolunteerDashboard from "../pages/VolunteerDashboard";
 import OrganizationDashboard from "../pages/OrganizationDashboard";
+import useAuthStore from "../lib/auth-store";
 
 function PublicRoutes({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
@@ -20,10 +21,7 @@ function ProtectedRoute({
   children: React.ReactNode;
   allowedRoles?: string[];
 }) {
-  const { user, isAuthenticated } = {
-    user: { role: "organization" },
-    isAuthenticated: true,    
-  };
+  const { user, isAuthenticated } = useAuthStore()
 
   if (!user || !isAuthenticated) {
     return <Navigate to="/login" replace />;

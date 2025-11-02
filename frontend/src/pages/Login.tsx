@@ -1,22 +1,42 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import API from "../lib/api-client";
+import useAuthStore from "../lib/auth-store";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const { user, isAuthenticated } = {
-    user: { role: "organization" },
-    isAuthenticated: true,    
-  };
+  const { setUser} = useAuthStore();
+
+  const { user, isAuthenticated } = useAuthStore()
 
 
 
-  const handleLogin = (e: React.FormEvent) => {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-    console.log("Login:", { email, password });
-    // Connect to backend API here
-  };
+    try{
+        setLoading(true);
+        setError(null);
+        const response = await API.post("api/auth/login/", { username, password });
+        console.log(response);
+        
+        if(response.status === 200){
+            const data = await API.get("api/user/");
+            setUser(data.data);
+            navigate(user?.role === "volunteer" ? "/volunteer/dashboard" : "/organization/dashboard");
+        }
+    }
+    catch(err){
+        setError(err.response?.data.detail || "Invalid credentials");
+    }
+    finally{
+        setLoading(false);
+    }
+  }
 
   return user && isAuthenticated && user.role === "volunteer" 
   ? <Navigate to="/volunteer/dashboard" replace />
@@ -28,10 +48,10 @@ const Login: React.FC = () => {
         <h1 className="text-2xl font-bold text-center mb-6">Login</h1>
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             required
           />

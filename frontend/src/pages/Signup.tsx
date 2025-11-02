@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
+import useAuthStore from "../lib/auth-store";
 
 const Signup: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"student" | "organisation">("student");
@@ -8,10 +9,7 @@ const Signup: React.FC = () => {
   const [orgEmail, setOrgEmail] = useState("");
   const [orgPassword, setOrgPassword] = useState("");
 
-  const { user, isAuthenticated } = {
-    user: { role: "organization" },
-    isAuthenticated: true,    
-  };
+  const { user, isAuthenticated } = useAuthStore()
 
 
   const handleStudentSignup = (e: React.FormEvent) => {

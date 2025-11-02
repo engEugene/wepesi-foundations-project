@@ -1,16 +1,15 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 //import logo from "/src/images/placeholder.png";
 
 const Navbar: React.FC = () => {
+  const navigate = useNavigate();
   const navLinks = [
     { path: "/", label: "Home" },
     { path: "/opportunities", label: "Opportunities" },
     { path: "/badges", label: "Badges" },
-    { path: "/profile", label: "Profile" },
+    // { path: "/profile", label: "Profile" },
     { path: "/contact", label: "Contact" },
-    { path: "/login", label: "Login" },
-    { path: "/signup", label: "Signup" }
   ];
 
   return (
@@ -39,15 +38,18 @@ const Navbar: React.FC = () => {
             </li>
           ))}
         </ul>
+        <button onClick={() => navigate("/signup")} className="bg-green-600 text-white py-3 px-3 rounded-lg hover:bg-green-700 transition">
+          GET STARTED
+        </button>
 
-        <button
+        {/* <button
           className="md:hidden text-gray-600 focus:outline-none"
           onClick={() =>
             alert("!!!Mobile menu can be added later if needed!!!!")
           }
         >
           ☰
-        </button>
+        </button> */}
       </div>
     </nav>
   );
