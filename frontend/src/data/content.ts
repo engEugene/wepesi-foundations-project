@@ -98,7 +98,7 @@ export const defaultProfile = {
   hours: 40,
   completedActivities: 5,
   badges: ["Environmentalist", "Contributor"],
-  avatar: "/src/images/placeholder.png",
+  avatar: "/images/leila-avatar.png",
   impactStats: {
     treesPlanted: 320,
     workshopsLed: 3,

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 const Signup: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"student" | "organisation">("student");
@@ -6,6 +7,12 @@ const Signup: React.FC = () => {
   const [studentPassword, setStudentPassword] = useState("");
   const [orgEmail, setOrgEmail] = useState("");
   const [orgPassword, setOrgPassword] = useState("");
+
+  const { user, isAuthenticated } = {
+    user: { role: "organization" },
+    isAuthenticated: true,    
+  };
+
 
   const handleStudentSignup = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,7 +24,11 @@ const Signup: React.FC = () => {
     console.log("Organisation Signup:", { orgEmail, orgPassword });
   };
 
-  return (
+  return user && isAuthenticated && user.role === "volunteer" 
+  ? <Navigate to="/volunteer/dashboard" replace />
+  : user && isAuthenticated && user.role === "organization"
+  ? <Navigate to="/organization/dashboard" replace />
+  : (
     <section className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
         <h1 className="text-2xl font-bold text-center mb-6">Sign Up</h1>
