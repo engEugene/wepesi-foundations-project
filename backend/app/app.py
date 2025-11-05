@@ -19,16 +19,17 @@ def create_app(config_class="app.config.settings.DevelopmentConfig"):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    CORS(
-        app,
-        resources={r"/api/*": {"origins": ["http://localhost:5173", "http://127.0.0.1:5173"]}},
-        supports_credentials=True,
-        methods=["GET", "POST", "OPTIONS"],
-        allow_headers=["Content-Type", "Authorization"]
-    )
+    CORS(app, resources={r"/api/*": {
+        "origins": ["https://localhost:5173"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "methods": ["GET", "POST", "OPTIONS"]
+    }},
+    supports_credentials=True
+    )  
     
 
     # Initialize extensions
+    
     db.init_app(app)
     bcrypt.init_app(app)
     jwt = JWTManager(app)

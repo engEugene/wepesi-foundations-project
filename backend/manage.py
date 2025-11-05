@@ -7,4 +7,8 @@ app = create_app()
 migrate = Migrate(app,db)
 
 if __name__ == "__main__": 
-    app.run()
+    app.run(
+    host="localhost",
+    port=5000,
+    ssl_context=("localhost.pem", "localhost-key.pem")
+    )
