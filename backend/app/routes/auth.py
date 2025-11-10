@@ -2,8 +2,9 @@ from flask import request, jsonify
 from datetime import timedelta
 from flask_restful import Resource
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_current_user, set_access_cookies, set_refresh_cookies, unset_jwt_cookies, create_refresh_token
-from config.database import db
-from models.users import User
+from app.config.database import db
+from app.models.users import User
+from app.models.organizations import Organization
 
 class RegisterUser(Resource):
     def post(self):
@@ -93,5 +94,52 @@ class LogoutUser(Resource):
         unset_jwt_cookies(response)  
         response.status_code = 200
         return response
+
+class OnboardOrganisation(Resource):
+    @jwt_required()
+    def post(self):
+        user = get_current_user()
+        current_user_id = get_jwt_identity()
+
+        if user.id != current_user_id:
+            return {"message": "Unauthorized"}, 401
+
+        if user.role != "organization":
+            return {"message": "Only organization accounts can complete onboarding."}, 403
+
+        if user.is_org_onboarded:
+            return {"message": "Organization is already onboarded."}, 409
+
+        data = request.get_json()
+
+        name = data.get("name")
+        description = data.get("description")
+        contact_email = data.get("contact_email")
+        website = data.get("website")
+        address = data.get("address")
+        phone = data.get("phone")
+
+        if not name or not description or not contact_email or not address or not phone:
+            return {"message": "Name, description, contact_email, address, and phone are required."}, 400
+
+        if Organization.query.filter(Organization.contact_email == contact_email).first():
+            return {"message": "Organization with that contact email already exists."}, 409
+
+        organization = Organization(
+            owner_id=user.id,
+            name=name,
+            description=description,
+            contact_email=contact_email,
+            website=website,
+            address=address,
+            phone=phone
+        )
+
+        user.is_org_onboarded = True
+
+        db.session.add(organization)
+        db.session.commit()
+
+        return {"message": "Organization onboarded successfully!"}, 201
     
 # TODO Refrsh resource 

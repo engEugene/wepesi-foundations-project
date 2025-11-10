@@ -1,5 +1,5 @@
 import uuid
-from config.database import db
+from app.config.database import db
 
 class BaseModel(db.Model):
     __abstract__ = True  
