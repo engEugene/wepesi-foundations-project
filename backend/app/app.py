@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 from .config.database import db, bcrypt
 
 from .models.users import User
@@ -18,12 +19,19 @@ def create_app(config_class="app.config.settings.DevelopmentConfig"):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
+    CORS(app,
+    supports_credentials=True
+    )  
+    
+
     # Initialize extensions
+    
     db.init_app(app)
     bcrypt.init_app(app)
     jwt = JWTManager(app)
     migrate = Migrate(app, db)
     api = Api(app)
+  
 
     # Register JWT user loader
     @jwt.user_lookup_loader

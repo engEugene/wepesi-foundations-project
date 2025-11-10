@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
+import useAuthStore from "../lib/auth-store";
 
 const Auth: React.FC = () => {
   const [mode, setMode] = useState<"signup" | "signin">("signup");
@@ -10,6 +12,10 @@ const Auth: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const { user, isAuthenticated } = useAuthStore()
+
+
+  const handleStudentSignup = (e: React.FormEvent) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -26,7 +32,11 @@ const Auth: React.FC = () => {
     }, 1000);
   };
 
-  return (
+  return user && isAuthenticated && user.role === "volunteer" 
+  ? <Navigate to="/volunteer/dashboard" replace />
+  : user && isAuthenticated && user.role === "organization"
+  ? <Navigate to="/organization/dashboard" replace />
+  : (
     <section className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
         <h1 className="text-3xl font-bold text-center mb-2">

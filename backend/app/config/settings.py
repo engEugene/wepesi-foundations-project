@@ -11,7 +11,7 @@ class Config:
     JWT_COOKIE_HTTPONLY = True
     JWT_COOKIE_CSRF_PROTECT = False
 
-
+   
 class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///volunteer.db"
     DEBUG = True
