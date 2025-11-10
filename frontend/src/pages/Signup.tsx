@@ -15,7 +15,7 @@ const Auth: React.FC = () => {
   const { user, isAuthenticated } = useAuthStore()
 
 
-  const handleStudentSignup = (e: React.FormEvent) => {
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
