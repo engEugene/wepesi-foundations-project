@@ -7,8 +7,8 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import OrganizationProfilePage from "../pages/OrganizationProfilePage";
 import VolunteerProfilePage from "../pages/VolunteerProfilePage";
-import OrganizationOnboardingForm from "./components/OrganizationOnboardingForm";
-import EventCreationForm from "./components/EventCreationForm";
+import OrganizationOnboardingPage from "../pages/OrganizationOnboardingPage";
+import EventCreationPage from "../pages/EventCreationPage";
 
 const AppRoutes = () => (
   <Routes>
@@ -20,8 +20,8 @@ const AppRoutes = () => (
     <Route path="/contact" element={<Contact />} />
     <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<Signup />} />
-    <Route path="/onboard" element={<OrganizationOnboardingForm />} />
-    <Route path="/create-event" element={<EventCreationForm />} />
+    <Route path="/onboard" element={<OrganizationOnboardingPage />} />
+    <Route path="/create-event" element={<EventCreationPage />} />
   </Routes>
 );
 
