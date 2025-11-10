@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { formSections } from "../data/content.ts";
+import { formSections } from "../data/content";
 
 export default function OrganizationOnboardingForm() {
   const onboardingForm = formSections.find((f) => f.id === "onboarding");
