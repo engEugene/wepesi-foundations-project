@@ -4,11 +4,10 @@ import Home from "../pages/Home";
 import Opportunities from "../pages/Opportunities";
 import Profile from "../pages/Profile";
 import Contact from "../pages/Contact";
-import Login from "../pages/Login";
-import Signup from "../pages/Signup";
 import VolunteerDashboard from "../pages/VolunteerDashboard";
 import OrganizationDashboard from "../pages/OrganizationDashboard";
 import useAuthStore from "../lib/auth-store";
+import Auth from "../pages/Auth";
 
 function PublicRoutes({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
@@ -24,7 +23,7 @@ function ProtectedRoute({
   const { user, isAuthenticated } = useAuthStore()
 
   if (!user || !isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/signup" replace />;
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
@@ -55,18 +54,10 @@ const AppRoutes = () => (
     <Route path="/profile" element={<Profile />} />
     <Route path="/contact" element={<Contact />} />
     <Route
-      path="/login"
-      element={
-        <PublicRoutes>
-          <Login />
-        </PublicRoutes>
-      }
-    />
-    <Route
       path="/signup"
       element={
         <PublicRoutes>
-          <Signup />
+          <Auth />
         </PublicRoutes>
       }
     />
