@@ -19,9 +19,13 @@ def create_app(config_class="app.config.settings.DevelopmentConfig"):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    CORS(app,
-    supports_credentials=True
-    )  
+    CORS(
+    app,
+    supports_credentials=True,
+    origins=["http://localhost:5173"],  # your React dev URL
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+) 
     
 
     # Initialize extensions
