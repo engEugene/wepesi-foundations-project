@@ -13,7 +13,7 @@ from .models.badges import Badge
 from .models.user_badges import UserBadge
 
 from .routes.auth import RegisterUser, LoginUser, LogoutUser, OnboardOrganisation
-
+from .routes.organization import EventManagement
 
 def create_app(config_class="app.config.settings.DevelopmentConfig"):
     app = Flask(__name__)
@@ -44,5 +44,6 @@ def create_app(config_class="app.config.settings.DevelopmentConfig"):
     api.add_resource(LoginUser, '/api/auth/login')
     api.add_resource(LogoutUser, '/api/auth/logout')
     api.add_resource(OnboardOrganisation, '/api/auth/onboard-organization')
+    api.add_resource(EventManagement, '/api/event')
 
     return app
