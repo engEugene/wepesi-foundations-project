@@ -19,11 +19,7 @@ def create_app(config_class="app.config.settings.DevelopmentConfig"):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    CORS(app, resources={r"/api/*": {
-        "origins": ["https://localhost:5173"],
-        "allow_headers": ["Content-Type", "Authorization"],
-        "methods": ["GET", "POST", "OPTIONS"]
-    }},
+    CORS(app,
     supports_credentials=True
     )  
     
