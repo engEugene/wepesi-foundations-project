@@ -220,3 +220,39 @@ export const volunteerProfileContent = {
     button: "bg-lime-600 hover:bg-lime-700",
   },
 };
+
+// Organization Onboarding and Event Creation Forms
+export const formSections = [
+  {
+    id: "onboarding",
+    title: "Organization Onboarding Form",
+    description:
+      "Register your organization and share your mission to attract volunteers passionate about your cause.",
+    fields: [
+      "Organization Name",
+      "Email",
+      "Phone Number",
+      "Location",
+      "Description",
+      "Website (optional)",
+      "Focus Areas",
+    ],
+    component: "/components/OrganizationOnboardingForm",
+  },
+  {
+    id: "eventCreation",
+    title: "Event Creation Form",
+    description:
+      "Create and manage volunteer opportunities for your organization. Provide event details and required skills.",
+    fields: [
+      "Event Title",
+      "Date",
+      "Location",
+      "Description",
+      "Required Skills",
+      "Website (optional)",
+      "Volunteer Slots",
+    ],
+    component: "/components/EventCreationForm",
+  },
+];
