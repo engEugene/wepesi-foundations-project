@@ -21,12 +21,12 @@ const Login: React.FC = () => {
     try{
         setLoading(true);
         setError(null);
-        const response = await API.post("api/auth/login/", { username, password });
+        const response = await API.post("/auth/login", { username, password });
         console.log(response);
         
         if(response.status === 200){
-            const data = await API.get("api/user/");
-            setUser(data.data);
+            const data = response.data;
+            setUser(data.user);
             navigate(user?.role === "volunteer" ? "/volunteer/dashboard" : "/organization/dashboard");
         }
     }
