@@ -8,6 +8,7 @@ import VolunteerDashboard from "../pages/VolunteerDashboard";
 import OrganizationDashboard from "../pages/OrganizationDashboard";
 import useAuthStore from "../lib/auth-store";
 import Auth from "../pages/Auth";
+import ManageVolunteers from "../pages/ManageVolunteers";
 
 function PublicRoutes({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
@@ -50,6 +51,15 @@ const AppRoutes = () => (
         </PublicRoutes>
       }
     />
+    <Route
+  path="/organization/manage-volunteers"
+  element={
+      <ProtectedRoute allowedRoles={["organization"]}>
+        <ManageVolunteers />
+      </ProtectedRoute>
+      }
+/>
+
     <Route path="/opportunities" element={<Opportunities />} />
     <Route path="/profile" element={<Profile />} />
     <Route path="/contact" element={<Contact />} />

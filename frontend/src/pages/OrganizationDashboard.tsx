@@ -2,6 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { opportunitiesData } from "../data/content";
 
+type Opportunity = {
+  id: string;
+  title: string;
+  category: string;
+  location: string;
+  duration: string;
+  status: "active" | "past" | "future";
+};
+
+
+
+
 const OrganizationDashboard: React.FC = () => {
   // Mock organization data
   const orgStats = {
@@ -161,7 +173,11 @@ const OrganizationDashboard: React.FC = () => {
           </button>
           <button className="flex flex-col items-center justify-center p-4 border-2 border-gray-200 rounded-lg hover:border-green-600 hover:bg-green-50 transition cursor-pointer">
             <div className="text-3xl mb-2">👥</div>
-            <p className="text-sm font-medium text-center">Manage Volunteers</p>
+          <Link
+  to="/organization/manage-volunteers"
+  className="...">
+Manage Volunteers
+</Link>
           </button>
           <Link
             to="/profile"
