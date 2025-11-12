@@ -20,6 +20,7 @@ const Navbar: React.FC = () => {
     if (res.status === 200) {
       clearUser();
       navigate("/signup");
+      setDropdownOpen(true);
     } else if (res.status === 401) {
       console.error("Failed to logout");
     }
@@ -68,7 +69,9 @@ const Navbar: React.FC = () => {
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md py-2 border border-gray-100">
                 <button
-                  onClick={() => navigate("/profile")}
+                  onClick={() => navigate("/profile")
+                    
+                  }
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                 >
                   Profile

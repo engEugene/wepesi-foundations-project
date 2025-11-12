@@ -24,7 +24,7 @@ function ProtectedRoute({
   children: React.ReactNode;
   allowedRoles?: string[];
 }) {
-  const { user, isAuthenticated } = useAuthStore()
+  const { user, isAuthenticated } = useAuthStore();
 
   if (!user || !isAuthenticated) {
     return <Navigate to="/signup" replace />;
@@ -35,10 +35,22 @@ function ProtectedRoute({
       case "volunteer":
         return <Navigate to="/volunteer/dashboard" replace />;
       case "organization":
-        return <Navigate to="/organization/dashboard" replace />;
+        if (!user.is_org_onboarded) {
+          return <Navigate to="/organization/onboard" replace />;
+        } else {
+          return <Navigate to="/organization/dashboard" replace />;
+        }
       default:
         return <Navigate to="/" replace />;
     }
+  }
+
+  if (
+    user.role === "organization" &&
+    !user.is_org_onboarded &&
+    window.location.pathname !== "/organization/onboard"
+  ) {
+    return <Navigate to="/organization/onboard" replace />;
   }
 
   return <>{children}</>;
@@ -60,7 +72,6 @@ const AppRoutes = () => (
     <Route path="/profile" element={<Profile />} />
     <Route path="/contact" element={<Contact />} />
 
-    <Route path="/onboard" element={<OrganizationOnboardingPage />} />
     <Route path="/create-event" element={<EventCreationPage />} />
     <Route
       path="/signup"
@@ -83,6 +94,14 @@ const AppRoutes = () => (
       element={
         <ProtectedRoute allowedRoles={["organization"]}>
           <OrganizationDashboard />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/organization/onboard"
+      element={
+        <ProtectedRoute allowedRoles={["organization"]}>
+          <OrganizationOnboardingPage />
         </ProtectedRoute>
       }
     />

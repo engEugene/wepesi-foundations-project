@@ -26,14 +26,19 @@ const Auth: React.FC = () => {
 
       const response = await API.post("/auth/login", { username, password });
       if (response.status === 200) {
-        const data = response.data;
-        setUser(data.user);
+        const user = response.data.user;
+        setUser(user);
 
-        navigate(
-          data.user.role === "volunteer"
-            ? "/volunteer/dashboard"
-            : "/organization/dashboard"
-        );
+        if (user.role === "volunteer") {
+          navigate("/volunteer/dashboard");
+        } else if (user.role === "organization") {
+          
+          if (!user.is_org_onboarded) {
+            navigate("/organization/onboard");
+          } else {
+            navigate("/organization/dashboard");
+          }
+        }
       }
     } catch (err: any) {
       setError(err.response?.data?.detail || "Invalid credentials");
@@ -54,13 +59,13 @@ const Auth: React.FC = () => {
 
       if (response.status === 201) {
         alert("Account created successfully. You can now sign in.");
-      setName("");
-      setUsername("");
-      setEmail("");
-      setPhoneNumber("");
-      setPassword("");
-      setRole("volunteer"); 
-      setMode("signin");
+        setName("");
+        setUsername("");
+        setEmail("");
+        setPhoneNumber("");
+        setPassword("");
+        setRole("volunteer");
+        setMode("signin");
       }
     } catch (err: any) {
       setError(err.response?.data?.message || "Signup failed");
