@@ -14,7 +14,7 @@ from .models.user_badges import UserBadge
 
 from .routes.auth import RegisterUser, LoginUser, LogoutUser, OnboardOrganisation
 from .routes.organization import EventManagement
-from .routes.participation import ApplyToEvent
+from .routes.participation import ApplyToEvent, ApproveParticipation
 
 def create_app(config_class="app.config.settings.DevelopmentConfig"):
     app = Flask(__name__)
@@ -51,5 +51,6 @@ def create_app(config_class="app.config.settings.DevelopmentConfig"):
     api.add_resource(OnboardOrganisation, '/api/auth/onboard-organization')
     api.add_resource(EventManagement, '/api/event')
     api.add_resource(ApplyToEvent, '/api/event/<string:event_id>/apply')
+    api.add_resource(ApproveParticipation, '/api/participation/<string:participation_id>/approve')
 
     return app
