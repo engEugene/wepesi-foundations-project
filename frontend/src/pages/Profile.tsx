@@ -8,7 +8,7 @@ const Profile: React.FC = () => {
   return (
     <section className="px-8 py-10 text-center">
       <img
-        src="/public/images/leila-avatar.png"
+        src="/src/images/placeholder.png"
         alt="Profile"
         className="w-32 h-32 mx-auto rounded-full object-cover mb-4"
       />

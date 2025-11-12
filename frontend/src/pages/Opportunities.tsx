@@ -16,7 +16,7 @@ const Opportunities: React.FC = () => {
             location={op.location}
             category={op.category}
             description={op.description}
-            image={`/images/${op.id === 1 ? "treeplanting.jpg" : "tutoring.jpg"}`}
+            image={`/src/images/${op.id === 1 ? "placeholder.png" : "placeholder.png"}`}
           />
         ))}
       </div>
