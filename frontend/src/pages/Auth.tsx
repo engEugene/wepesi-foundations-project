@@ -28,21 +28,14 @@ const Auth: React.FC = () => {
       if (response.status === 200) {
         const user = response.data.user;
         setUser(user);
-        console.log("Full user object:", user);
-        console.log("is_org_onboarded value:", user.is_org_onboarded);
-        console.log("Type:", typeof user.is_org_onboarded);
 
         if (user.role === "volunteer") {
           navigate("/volunteer/dashboard");
         } else if (user.role === "organization") {
-          console.log('User is organization');
-          console.log('is_org_onboarded:', user.is_org_onboarded);
           
           if (!user.is_org_onboarded) {
-            console.log('Navigating to onboarding...');
             navigate("/organization/onboard");
           } else {
-            console.log('Navigating to dashboard...');
             navigate("/organization/dashboard");
           }
         }
