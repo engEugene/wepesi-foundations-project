@@ -26,14 +26,26 @@ const Auth: React.FC = () => {
 
       const response = await API.post("/auth/login", { username, password });
       if (response.status === 200) {
-        const data = response.data;
-        setUser(data.user);
+        const user = response.data.user;
+        setUser(user);
+        console.log("Full user object:", user);
+        console.log("is_org_onboarded value:", user.is_org_onboarded);
+        console.log("Type:", typeof user.is_org_onboarded);
 
-        navigate(
-          data.user.role === "volunteer"
-            ? "/volunteer/dashboard"
-            : "/organization/dashboard"
-        );
+        if (user.role === "volunteer") {
+          navigate("/volunteer/dashboard");
+        } else if (user.role === "organization") {
+          console.log('User is organization');
+          console.log('is_org_onboarded:', user.is_org_onboarded);
+          
+          if (!user.is_org_onboarded) {
+            console.log('Navigating to onboarding...');
+            navigate("/organization/onboard");
+          } else {
+            console.log('Navigating to dashboard...');
+            navigate("/organization/dashboard");
+          }
+        }
       }
     } catch (err: any) {
       setError(err.response?.data?.detail || "Invalid credentials");
@@ -54,13 +66,13 @@ const Auth: React.FC = () => {
 
       if (response.status === 201) {
         alert("Account created successfully. You can now sign in.");
-      setName("");
-      setUsername("");
-      setEmail("");
-      setPhoneNumber("");
-      setPassword("");
-      setRole("volunteer"); 
-      setMode("signin");
+        setName("");
+        setUsername("");
+        setEmail("");
+        setPhoneNumber("");
+        setPassword("");
+        setRole("volunteer");
+        setMode("signin");
       }
     } catch (err: any) {
       setError(err.response?.data?.message || "Signup failed");
