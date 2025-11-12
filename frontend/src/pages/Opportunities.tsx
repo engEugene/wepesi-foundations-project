@@ -10,6 +10,7 @@ const Opportunities: React.FC = () => {
         {opportunitiesData.map((op) => (
           <OpportunityCard
             key={op.id}
+            id={op.id}
             title={op.title}
             organization={op.organization}
             duration={op.duration}
