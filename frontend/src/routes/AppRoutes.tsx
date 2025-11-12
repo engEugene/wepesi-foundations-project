@@ -1,27 +1,91 @@
-import { Routes, Route } from "react-router-dom";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
 import Opportunities from "../pages/Opportunities";
 import Profile from "../pages/Profile";
 import Contact from "../pages/Contact";
-import Login from "../pages/Login";
-import Signup from "../pages/Signup";
 import OrganizationProfilePage from "../pages/OrganizationProfilePage";
 import VolunteerProfilePage from "../pages/VolunteerProfilePage";
 import OrganizationOnboardingPage from "../pages/OrganizationOnboardingPage";
 import EventCreationPage from "../pages/EventCreationPage";
+import VolunteerDashboard from "../pages/VolunteerDashboard";
+import OrganizationDashboard from "../pages/OrganizationDashboard";
+import useAuthStore from "../lib/auth-store";
+import Auth from "../pages/Auth";
+
+function PublicRoutes({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
+}
+
+function ProtectedRoute({
+  children,
+  allowedRoles,
+}: {
+  children: React.ReactNode;
+  allowedRoles?: string[];
+}) {
+  const { user, isAuthenticated } = useAuthStore()
+
+  if (!user || !isAuthenticated) {
+    return <Navigate to="/signup" replace />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    switch (user.role) {
+      case "volunteer":
+        return <Navigate to="/volunteer/dashboard" replace />;
+      case "organization":
+        return <Navigate to="/organization/dashboard" replace />;
+      default:
+        return <Navigate to="/" replace />;
+    }
+  }
+
+  return <>{children}</>;
+}
 
 const AppRoutes = () => (
   <Routes>
-    <Route path="/" element={<Home />} />
+    <Route
+      path="/"
+      element={
+        <PublicRoutes>
+          <Home />
+        </PublicRoutes>
+      }
+    />
     <Route path="/opportunities" element={<Opportunities />} />
     <Route path="/organizations/:id" element={<OrganizationProfilePage />} />
     <Route path="/volunteers/:id" element={<VolunteerProfilePage />} />
     <Route path="/profile" element={<Profile />} />
     <Route path="/contact" element={<Contact />} />
-    <Route path="/login" element={<Login />} />
-    <Route path="/signup" element={<Signup />} />
+
     <Route path="/onboard" element={<OrganizationOnboardingPage />} />
     <Route path="/create-event" element={<EventCreationPage />} />
+    <Route
+      path="/signup"
+      element={
+        <PublicRoutes>
+          <Auth />
+        </PublicRoutes>
+      }
+    />
+    <Route
+      path="/volunteer/dashboard"
+      element={
+        <ProtectedRoute allowedRoles={["volunteer"]}>
+          <VolunteerDashboard />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/organization/dashboard"
+      element={
+        <ProtectedRoute allowedRoles={["organization"]}>
+          <OrganizationDashboard />
+        </ProtectedRoute>
+      }
+    />
   </Routes>
 );
 

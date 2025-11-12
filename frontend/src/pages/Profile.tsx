@@ -3,7 +3,7 @@ import { defaultProfile, badgesData } from "../data/content";
 import Badge from "../components/Badge";
 
 const Profile: React.FC = () => {
-  const { name, school, hours, completedActivities, avatar } = defaultProfile;
+  const { name, hours, completedActivities, avatar } = defaultProfile;
 
   return (
     <section className="px-8 py-10 text-center">
@@ -13,7 +13,7 @@ const Profile: React.FC = () => {
         className="w-32 h-32 mx-auto rounded-full object-cover mb-4"
       />
       <h2 className="text-2xl font-semibold">{name}</h2>
-      <p className="text-gray-600">{school}</p>
+      {/* <p className="text-gray-600">{school}</p> */}
       <div className="mt-4 flex justify-center gap-8">
         <div>
           <p className="text-lg font-semibold">{hours}</p>
