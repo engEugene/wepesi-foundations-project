@@ -28,38 +28,71 @@ export const homeContent = {
 // Opportunities Page
 export const opportunitiesData = [
   {
-    id: 1,
-    title: "Tree Planting in Karura Forest",
-    organization: "EcoServe Kenya",
+     id: 1,
+    title: "Tree Planting for Greener Kigali",
+    organization: "EcoServe Rwanda",
     duration: "1 Day (Nov 15)",
-    location: "Nairobi Arboretum",
-    category: "Reforestation",
+    location: "Nyandungu Urban Wetland Park, Kigali",
+    category: "Environment",
     description:
-      "Help restore Kenya’s forest cover by planting indigenous trees and learning about biodiversity protection.",
-    image: "/src/images/placeholder.png",
+      "Join fellow students and local youth in restoring Kigali’s green spaces by planting indigenous trees and promoting urban biodiversity. Tools and refreshments will be provided.",
+    //Image:
   },
   {
     id: 2,
-    title: "Beach Cleanup Drive",
-    organization: "Green Youth Alliance",
-    duration: "Weekend (Nov 23–24)",
-    location: "Mombasa, Kenya",
-    category: "Marine Conservation",
+    title: "Waste Sorting and Recycling Workshop",
+    organization: "Clean City Initiative",
+    duration: "3 Days (Nov 20–22)",
+    location: "Kacyiru Sector, Kigali",
+    category: "Sustainability",
     description:
-      "Join students and environmentalists in cleaning up coastal beaches and reducing plastic pollution.",
-    image: "/src/images/placeholder.png",
+      "Help raise awareness about proper waste management by teaching sorting techniques and creating recyclable art projects for local schools.",
+    //Image:
   },
   {
     id: 3,
-    title: "Community Climate Awareness Workshop",
-    organization: "EcoFuture Initiative",
-    duration: "2 Days (Dec 5–6)",
-    location: "Kisumu, Kenya",
-    category: "Climate Education",
+    title: "Tutoring Underprivileged Students",
+    organization: "Bright Minds Rwanda",
+    duration: "2 Weeks (Dec 1–14)",
+    location: "Gatsata Community Center, Kigali",
+    category: "Education",
     description:
-      "Facilitate workshops that teach communities about renewable energy and sustainable living practices.",
-    image: "/src/images/placeholder.png",
+      "Volunteer as a tutor to support primary school learners in literacy and numeracy. Training and materials will be provided before sessions begin.",
+    //Image:
   },
+  {
+    id: 4,
+    title: "Community Health Awareness Drive",
+    organization: "Wellbeing for All",
+    duration: "1 Week (Dec 5–12)",
+    location: "Nyarugenge District, Kigali",
+    category: "Health",
+    description:
+      "Collaborate with local health volunteers to raise awareness on hygiene, nutrition, and preventive care. Great for students interested in healthcare and public health.",
+    //Image:
+  },
+  {
+    id: 5,
+    title: "Lake Muhazi Cleanup Challenge",
+    organization: "Green Youth Movement",
+    duration: "1 Day (Dec 10)",
+    location: "Lake Muhazi Shoreline, Kigali Outskirts",
+    category: "Environment",
+    description:
+      "Spend a day with an energetic team cleaning up the lakeshore to protect aquatic life and restore natural beauty. Transportation and lunch included.",
+    //Image:
+    },
+  {
+    id: 6,
+    title: "Tech for Sustainability Hackathon",
+    organization: "Innovate Rwanda",
+    duration: "3 Days (Jan 10–12)",
+    location: "KLab Innovation Hub, Kigali",
+    category: "Technology",
+    description:
+      "Join other innovators in designing digital tools and solutions for sustainability challenges in Kigali. No prior coding experience required.",
+    //Image:
+   },
 ];
 
 // Badges
@@ -92,13 +125,15 @@ export const badgesData = [
 
 // Default Profile Data
 export const defaultProfile = {
+  photo: "/src/images/placeholder.png",
   name: "Leila Omol",
   title: "Student Environmentalist | ALU Volunteer Enthusiast",
   bio: "Dedicated to creating a cleaner, greener, and more sustainable future through active community service.",
+  school: "African Leadership University",
   hours: 40,
   completedActivities: 5,
   badges: ["Environmentalist", "Contributor"],
-  avatar: "/src/images/placeholder.png",
+  avatar: "/images/leila-avatar.png",
   impactStats: {
     treesPlanted: 320,
     workshopsLed: 3,
@@ -122,3 +157,102 @@ export const contactContent = {
     x: "https://x.com/",
   },
 };
+
+// Organization and Volunteer Profile Setup
+export const organizationProfileContent = {
+  title: "Organization Profile Setup",
+  subtitle:
+    "Share your mission and connect with volunteers who align with your cause.",
+  fields: [
+    { name: "name", label: "Organization Name", type: "text", required: true },
+    { name: "mission", label: "Mission Statement", type: "textarea", required: true },
+    { name: "contactEmail", label: "Contact Email", type: "email", required: true },
+    { name: "phone", label: "Phone Number", type: "text", required: false },
+    { name: "website", label: "Website (optional)", type: "url", required: false },
+    { name: "description", label: "Description", type: "textarea", required: false },
+  ],
+  submitButton: "Save Profile",
+  theme: {
+    bg: "bg-blue-50",
+    border: "border-blue-100",
+    title: "text-blue-700",
+    ring: "focus:ring-blue-500",
+    button: "bg-blue-600 hover:bg-blue-700",
+  },
+};
+
+export const volunteerProfileContent = {
+  title: "Volunteer Profile Setup",
+  subtitle:
+    "Tell us about yourself, your skills, and how often you’d like to volunteer.",
+  fields: [
+    { name: "fullName", label: "Full Name", type: "text", required: true },
+    { name: "age", label: "Age", type: "number", required: false },
+    {
+      name: "availability",
+      label: "Availability",
+      type: "text",
+      placeholder: "e.g. Weekends, 3 days a week",
+      required: false,
+    },
+    {
+      name: "skills",
+      label: "Skills",
+      type: "text",
+      placeholder: "e.g. First Aid, Teaching, Communication",
+      required: false,
+    },
+    { name: "contactEmail", label: "Email", type: "email", required: true },
+    {
+      name: "bio",
+      label: "Short Bio",
+      type: "textarea",
+      placeholder: "Tell us a bit about yourself...",
+      required: false,
+    },
+  ],
+  submitButton: "Save Profile",
+  theme: {
+    bg: "bg-lime-50",
+    border: "border-lime-100",
+    title: "text-lime-700",
+    ring: "focus:ring-lime-500",
+    button: "bg-lime-600 hover:bg-lime-700",
+  },
+};
+
+// Organization Onboarding and Event Creation Forms
+export const formSections = [
+  {
+    id: "onboarding",
+    title: "Organization Onboarding Form",
+    description:
+      "Register your organization and share your mission to attract volunteers passionate about your cause.",
+    fields: [
+      "Organization Name",
+      "Email",
+      "Phone Number",
+      "Location",
+      "Description",
+      "Website (optional)",
+      "Focus Areas",
+    ],
+    component: "/components/OrganizationOnboardingForm",
+  },
+  {
+    id: "eventCreation",
+    title: "Event Creation Form",
+    description:
+      "Create and manage volunteer opportunities for your organization. Provide event details and required skills.",
+    fields: [
+      "Event Title",
+      "Date",
+      "Location",
+      "Description",
+      "Required Skills",
+      "Website (optional)",
+      "Volunteer Slots",
+    ],
+    component: "/components/EventCreationForm",
+  },
+];

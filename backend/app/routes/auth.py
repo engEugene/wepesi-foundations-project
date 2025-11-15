@@ -1,12 +1,14 @@
 from flask import request, jsonify
 from datetime import timedelta
 from flask_restful import Resource
+from flask_cors import cross_origin
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_current_user, set_access_cookies, set_refresh_cookies, unset_jwt_cookies, create_refresh_token
 from app.config.database import db
 from app.models.users import User
 from app.models.organizations import Organization
 
 class RegisterUser(Resource):
+  
     def post(self):
         data = request.get_json()
 

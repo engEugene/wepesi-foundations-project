@@ -7,11 +7,11 @@ class Config:
     JWT_ACCESS_COOKIE_NAME = "access_token"
     JWT_REFRESH_COOKIE_NAME = "refresh_token"
     JWT_COOKIE_SECURE = False
-    JWT_COOKIE_SAMESITE = "None"
+    JWT_COOKIE_SAMESITE = "Lax"
     JWT_COOKIE_HTTPONLY = True
     JWT_COOKIE_CSRF_PROTECT = False
 
-
+   
 class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///volunteer.db"
     DEBUG = True
