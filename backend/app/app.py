@@ -16,6 +16,7 @@ from .models.user_badges import UserBadge
 # Routes
 from .routes.auth import RegisterUser, LoginUser, LogoutUser, OnboardOrganisation
 from .routes.organization import EventManagement
+from .routes.participation import ApplyToEvent, ApproveParticipation, CompleteParticipation
 
 # NEW: Profile Resource
 class VolunteerProfile(Resource):
@@ -80,6 +81,9 @@ def create_app(config_class="app.config.settings.DevelopmentConfig"):
     api.add_resource(LogoutUser, '/api/auth/logout')
     api.add_resource(OnboardOrganisation, '/api/auth/onboard-organization')
     api.add_resource(EventManagement, '/api/event')
+    api.add_resource(ApplyToEvent, '/api/event/<string:event_id>/apply')
+    api.add_resource(ApproveParticipation, '/api/participation/<string:participation_id>/approve')
+    api.add_resource(CompleteParticipation, '/api/participation/<string:participation_id>/complete')
     
     # NEW: Add Profile Route
     api.add_resource(VolunteerProfile, '/api/profile')
