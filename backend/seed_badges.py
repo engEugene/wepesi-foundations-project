@@ -13,43 +13,44 @@ def seed_badges():
     with app.app_context():
         # Define badges to create
         badges_data = [
-            {
-                "name": "Beginner",
-                "description": "Earned after completing 10 volunteer hours. First steps in your volunteering journey.",
-                "criteria": "10 hours",
-                "image_url": "/images/badges/beginner.png"
-            },
-            {
-                "name": "Novice",
-                "description": "Earned after completing 50 volunteer hours. You're getting the hang of it!",
-                "criteria": "50 hours",
-                "image_url": "/images/badges/novice.png"
-            },
-            {
-                "name": "Changemaker",
-                "description": "Earned after completing 75 volunteer hours. Making a real difference in your community.",
-                "criteria": "75 hours",
-                "image_url": "/images/badges/changemaker.png"
-            },
-            {
-                "name": "Skillful Intern",
-                "description": "Earned after completing 100 volunteer hours. You've become a skilled volunteer.",
-                "criteria": "100 hours",
-                "image_url": "/images/badges/skillful-intern.png"
-            },
-            {
-                "name": "Expert Intern",
-                "description": "Earned after completing 300 volunteer hours. You're an expert at making an impact.",
-                "criteria": "300 hours",
-                "image_url": "/images/badges/expert-intern.png"
-            },
-            {
-                "name": "Elite Intern",
-                "description": "Earned after completing 450 volunteer hours. You've reached the elite level of volunteering.",
-                "criteria": "450 hours",
-                "image_url": "/images/badges/elite-intern.png"
-            },
-        ]
+    {
+        "name": "Beginner",
+        "description": "Earned after completing 10 volunteer hours. First steps in your volunteering journey.",
+        "criteria": "10 hours",
+        "image_url": "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals%20Nature/Seedling.png"
+    },
+    {
+        "name": "Novice",
+        "description": "Earned after completing 50 volunteer hours. You're getting the hang of it!",
+        "criteria": "50 hours",
+        "image_url": "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20Body/Handshake.png"
+    },
+    {
+        "name": "Changemaker",
+        "description": "Earned after completing 75 volunteer hours. Making a real difference in your community.",
+        "criteria": "75 hours",
+        "image_url": "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Red%20Heart.png"
+    },
+    {
+        "name": "Skillful Intern",
+        "description": "Earned after completing 100 volunteer hours. You've become a skilled volunteer.",
+        "criteria": "100 hours",
+        "image_url": "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Military%20Medal.png"
+    },
+    {
+        "name": "Expert Intern",
+        "description": "Earned after completing 300 volunteer hours. You're an expert at making an impact.",
+        "criteria": "300 hours",
+        "image_url": "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Crown.png"
+    },
+    {
+        "name": "Elite Intern",
+        "description": "Earned after completing 450 volunteer hours. You've reached the elite level of volunteering.",
+        "criteria": "450 hours",
+        "image_url": "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Trophy.png"
+    }
+]
+   
         
         # Check if badges already exist
         existing_badges = Badge.query.all()

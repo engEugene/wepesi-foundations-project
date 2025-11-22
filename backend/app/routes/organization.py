@@ -108,3 +108,67 @@ class OrganizationSpecificEvents(Resource):
                 for e in events
             ]
         }, 200
+
+class OrganizationProfile(Resource):
+    def get(self, organization_id):
+        """
+        Public endpoint: Anyone can view an organization's basic details.
+        """
+        org = Organization.query.get(organization_id)
+
+        if not org:
+            return {"message": "Organization not found."}, 404
+
+        # Calculate active events for a nice summary
+        active_events_count = Event.query.filter_by(
+            organization_id=org.id, 
+            status='published'
+        ).count()
+
+        return {
+            "organization": {
+                "id": org.id,
+                "name": org.name,
+                "description": org.description,
+                "location_address": org.address,
+                "website": org.website,
+                "contact_email": org.contact_email,
+                "phone": org.phone,
+                "joined_at": org.created_at.isoformat(),
+                "stats": {
+                    "active_events": active_events_count
+                }
+            }
+        }, 200
+
+
+class MyOrganization(Resource):
+    @jwt_required()
+    def get(self):
+        """
+        Private endpoint: The logged-in Organization fetching their own details.
+        Useful for the 'Edit Profile' page or Dashboard Header.
+        """
+        user = get_current_user()
+
+        if user.role != "organization":
+            return {"message": "Only organizations have profiles."}, 403
+
+        # Find the org owned by this user
+        org = Organization.query.filter_by(owner_id=user.id).first()
+
+        if not org:
+            return {"message": "Profile not setup yet. Please complete onboarding."}, 404
+
+        return {
+            "organization": {
+                "id": org.id,
+                "name": org.name,
+                "description": org.description,
+                "contact_email": org.contact_email,
+                "phone": org.phone,
+                "website": org.website,
+                "address": org.address,
+                "updated_at": org.updated_at.isoformat() if org.updated_at else None
+            }
+        }, 200

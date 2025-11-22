@@ -163,3 +163,46 @@ class CompleteParticipation(Resource):
             "total_hours": float(user.total_volunteer_hours)
         }, 200
 
+class EventApplications(Resource):
+    @jwt_required()
+    def get(self, event_id):
+        user = get_current_user()
+
+        # 1. Security Check: Only organizations can view applicant lists
+        if user.role != "organization":
+            return {"message": "Access denied. Only organizations can view applications."}, 403
+
+        event = Event.query.get(event_id)
+        if not event:
+            return {"message": "Event not found."}, 404
+
+        # 2. Ownership Check: Ensure this event belongs to the logged-in user's organization
+        if event.organization.owner_id != user.id:
+            return {"message": "Unauthorized. You can only view applications for your own events."}, 403
+
+        # 3. Fetch Participations
+        # For now, we return ALL applications so you can see pending vs approved
+        participations = Participation.query.filter_by(event_id=event_id).all()
+
+        # 4. Serialize Data
+        results = []
+        for p in participations:
+            results.append({
+                "participation_id": p.id,  # <--- THIS ID is what you send to the Approve endpoint
+                "status": p.status,
+                "applied_at": p.applied_at.isoformat() if p.applied_at else None,
+                "approved_at": p.approved_at.isoformat() if p.approved_at else None,
+                "volunteer": {
+                    "id": p.user.id,
+                    "name": p.user.name,
+                    "email": p.user.email,
+                    "phone": p.user.phone_number,
+                    "total_hours": float(p.user.total_volunteer_hours or 0)
+                }
+            })
+
+        return {
+            "event_title": event.title,
+            "count": len(results),
+            "applications": results
+        }, 200
