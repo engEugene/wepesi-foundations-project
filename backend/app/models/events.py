@@ -23,3 +23,4 @@ class Event(BaseModel):
     organization = db.relationship("Organization", back_populates="events")
     participations = db.relationship("Participation", back_populates="event", lazy=True)
     user_badges = db.relationship("UserBadge", back_populates="event", lazy=True)
+    time_logs = db.relationship("TimeLog", back_populates="event", lazy=True)

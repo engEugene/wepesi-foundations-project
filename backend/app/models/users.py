@@ -28,6 +28,7 @@ class User(BaseModel):
     organizations = db.relationship("Organization", back_populates="owner", lazy=True)
     participations = db.relationship("Participation", back_populates="user", lazy=True)
     user_badges = db.relationship("UserBadge", back_populates="user", lazy=True)
+    time_logs = db.relationship("TimeLog", back_populates="user", lazy=True)
 
     def set_password(self, password):
         self.password = bcrypt.generate_password_hash(password).decode("utf-8")

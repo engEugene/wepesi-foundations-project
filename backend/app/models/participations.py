@@ -8,7 +8,7 @@ class Participation(BaseModel):
     user_id = db.Column(db.String(100), db.ForeignKey('users.id'), nullable=False)
     event_id = db.Column(db.String(100), db.ForeignKey('events.id'), nullable=False)
     status = db.Column(db.String(20), nullable=False)
-    volunteer_hours = db.Column(db.Integer)
+    volunteer_hours = db.Column(db.Numeric(5, 2), default=0.00)
     applied_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     approved_at = db.Column(db.DateTime)
     completed_at = db.Column(db.DateTime)
@@ -16,3 +16,4 @@ class Participation(BaseModel):
     #Relationships
     user = db.relationship("User", back_populates="participations")
     event = db.relationship("Event", back_populates="participations")
+    time_logs = db.relationship("TimeLog", back_populates="participation", cascade="all, delete-orphan", lazy=True)

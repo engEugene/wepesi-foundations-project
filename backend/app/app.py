@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
-from app.routes.volunteer import VolunteerEvents
+from app.routes.volunteer import VolunteerCheckIn, VolunteerCheckOut, VolunteerEvents
 from .config.database import db, bcrypt
 
 # Models
@@ -15,6 +15,7 @@ from .models.events import Event
 from .models.participations import Participation
 from .models.badges import Badge
 from .models.user_badges import UserBadge
+from .models.time_logs import TimeLog
 
 # Routes
 from .routes.auth import RegisterUser, LoginUser, LogoutUser, OnboardOrganisation
@@ -65,5 +66,7 @@ def create_app(config_class="app.config.settings.DevelopmentConfig"):
     api.add_resource(CompleteParticipation, '/api/participation/<string:participation_id>/complete')
     api.add_resource(OrganizationSpecificEvents, '/api/organization/<string:organization_id>/events')
     api.add_resource(VolunteerEvents, '/api/volunteer/events')
+    api.add_resource(VolunteerCheckIn, '/api/participation/<string:participation_id>/check-in')
+    api.add_resource(VolunteerCheckOut, '/api/participation/<string:participation_id>/check-out')
 
     return app
