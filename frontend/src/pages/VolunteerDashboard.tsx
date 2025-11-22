@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import API from "../lib/api-client";
 import useAuthStore from "../lib/auth-store";
+import VolunteerHoursLogging from "../components/VolunteerHoursLogging";
+import TimeClock from "../components/TimeClock";
 
 interface ApiEvent {
   id: string;
@@ -25,6 +27,29 @@ interface VolunteerStats {
   total_hours: number;
   completed_activities: number;
   active_badges: number;
+}
+
+interface VolunteerEvent {
+  participation_id: string;
+  event_id: string;
+  organization_id: string;
+  title: string;
+  description: string;
+  location: string;
+  start_time: string;
+  end_time: string;
+  status: "applied" | "approved" | "completed";
+  volunteer_hours: number | null;
+  is_checked_in: boolean;
+  applied_at: string | null;
+  approved_at: string | null;
+  completed_at: string | null;
+}
+
+interface VolunteerEventsResponse {
+  message: string;
+  count: number;
+  events: VolunteerEvent[];
 }
 
 const formatDuration = (startTime: string, endTime: string): string => {
@@ -72,19 +97,33 @@ const fetchEvents = async (): Promise<ApiEvent[]> => {
   return [];
 };
 
-const fetchVolunteerStats = async (): Promise<VolunteerStats | null> => {
+const fetchVolunteerEvents = async (): Promise<VolunteerEvent[]> => {
   try {
-    // TODO: Replace with actual volunteer stats endpoint when available
-    // For now, return default values
-    return {
-      total_hours: 0,
-      completed_activities: 0,
-      active_badges: 0,
-    };
+    const response = await API.get<VolunteerEventsResponse>(
+      "/volunteer/events"
+    );
+    return response.data.events || [];
   } catch (error) {
-    console.error("Error fetching volunteer stats:", error);
-    return null;
+    console.error("Error fetching volunteer events:", error);
+    return [];
   }
+};
+
+const calculateVolunteerStats = (events: VolunteerEvent[]): VolunteerStats => {
+  const totalHours = events.reduce(
+    (sum, event) => sum + (event.volunteer_hours || 0),
+    0
+  );
+  const completedActivities = events.filter(
+    (e) => e.status === "completed"
+  ).length;
+
+  // TODO: Fetch actual badges count when endpoint is available
+  return {
+    total_hours: Math.round(totalHours * 100) / 100, // Round to 2 decimal places
+    completed_activities: completedActivities,
+    active_badges: 0, // Will be updated when badges endpoint is available
+  };
 };
 
 const applyToEvent = async (eventId: string): Promise<void> => {
@@ -94,16 +133,58 @@ const applyToEvent = async (eventId: string): Promise<void> => {
 const VolunteerDashboard: React.FC = () => {
   const { user } = useAuthStore();
   const [applyingEventId, setApplyingEventId] = useState<string | null>(null);
+  const [currentSession, setCurrentSession] = useState<{
+    startTime: string;
+    eventTitle: string;
+  } | null>(null);
 
   const { data: events, isLoading: eventsLoading } = useQuery({
     queryKey: ["events"],
     queryFn: fetchEvents,
   });
 
-  const { data: stats } = useQuery({
-    queryKey: ["volunteerStats"],
-    queryFn: fetchVolunteerStats,
+  const { data: volunteerEvents } = useQuery({
+    queryKey: ["volunteerEvents"],
+    queryFn: fetchVolunteerEvents,
   });
+
+  const stats = volunteerEvents
+    ? calculateVolunteerStats(volunteerEvents)
+    : null;
+
+  // Check for existing checked-in session
+  React.useEffect(() => {
+    if (volunteerEvents) {
+      const checkedInEvent = volunteerEvents.find((e) => e.is_checked_in);
+      if (checkedInEvent) {
+        // Try to get start time from localStorage
+        const storedSession = localStorage.getItem(
+          `checkin_${checkedInEvent.participation_id}`
+        );
+        if (storedSession) {
+          try {
+            const session = JSON.parse(storedSession);
+            setCurrentSession({
+              startTime: session.startTime,
+              eventTitle: checkedInEvent.title,
+            });
+          } catch (e) {
+            console.error("Error parsing stored session:", e);
+          }
+        }
+      } else {
+        setCurrentSession(null);
+      }
+    }
+  }, [volunteerEvents]);
+
+  const handleCheckInStart = (startTime: string, eventTitle: string) => {
+    setCurrentSession({ startTime, eventTitle });
+  };
+
+  const handleCheckOut = () => {
+    setCurrentSession(null);
+  };
 
   const upcomingActivities = events ? events.slice(0, 3) : [];
 
@@ -141,6 +222,16 @@ const VolunteerDashboard: React.FC = () => {
           Here's an overview of your volunteering journey
         </p>
       </div>
+
+      {/* Active Session Clock - Show when checked in */}
+      {currentSession && (
+        <div className="mb-8">
+          <TimeClock
+            startTime={currentSession.startTime}
+            eventTitle={currentSession.eventTitle}
+          />
+        </div>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -267,6 +358,14 @@ const VolunteerDashboard: React.FC = () => {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Time Logging Section */}
+      <div className="mt-8">
+        <VolunteerHoursLogging
+          onCheckInStart={handleCheckInStart}
+          onCheckOut={handleCheckOut}
+        />
       </div>
 
       {/* Quick Actions */}

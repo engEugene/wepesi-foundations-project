@@ -8,6 +8,7 @@ import OrganizationProfilePage from "../pages/OrganizationProfilePage";
 import VolunteerProfilePage from "../pages/VolunteerProfilePage";
 import OrganizationOnboardingPage from "../pages/OrganizationOnboardingPage";
 import EventCreationPage from "../pages/EventCreationPage";
+import EventDetails from "../pages/EventDetails";
 import VolunteerDashboard from "../pages/VolunteerDashboard";
 import OrganizationDashboard from "../pages/OrganizationDashboard";
 import useAuthStore from "../lib/auth-store";
@@ -77,6 +78,7 @@ const AppRoutes = () => (
 />
 
     <Route path="/opportunities" element={<Opportunities />} />
+    <Route path="/event/:id" element={<EventDetails />} />
     <Route path="/organizations/:id" element={<OrganizationProfilePage />} />
     <Route path="/volunteers/:id" element={<VolunteerProfilePage />} />
     <Route path="/profile" element={<Profile />} />

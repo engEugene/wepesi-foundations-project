@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAuthStore from "../lib/auth-store";
 import API from "../lib/api-client";
 
@@ -208,6 +208,7 @@ const OrganizationDashboard: React.FC = () => {
   >([]);
   const [selectedEventTitle, setSelectedEventTitle] = useState<string>("");
   const { user } = useAuthStore();
+  const queryClient = useQueryClient();
 
   // First fetch organization profile to get the organization_id
   const { data: organizationProfile, isLoading: isLoadingProfile } = useQuery({
@@ -360,12 +361,59 @@ const OrganizationDashboard: React.FC = () => {
     setSelectedEventTitle("");
   };
 
+  const approveParticipationMutation = useMutation({
+    mutationFn: async (participationId: string) => {
+      const response = await API.put(
+        `/participation/${participationId}/approve`
+      );
+      return response.data;
+    },
+    onSuccess: () => {
+      // Invalidate queries to refetch updated data
+      queryClient.invalidateQueries({ queryKey: ["eventApplications"] });
+      queryClient.invalidateQueries({ queryKey: ["organizationEvents"] });
+    },
+    onError: (error: any) => {
+      alert(
+        error.response?.data?.message ||
+          "Failed to approve participation. Please try again."
+      );
+    },
+  });
+
+  const handleApprove = async (participationId: string) => {
+    try {
+      await approveParticipationMutation.mutateAsync(participationId);
+      // Update local state optimistically if in modal
+      if (selectedApplications.length > 0) {
+        const updated = selectedApplications.map((app) =>
+          app.participation_id === participationId
+            ? {
+                ...app,
+                status: "approved",
+                approved_at: new Date().toISOString(),
+              }
+            : app
+        );
+        setSelectedApplications(updated);
+      }
+      alert("Participation approved successfully!");
+    } catch (error) {
+      // Error is already handled in onError
+    }
+  };
+
   const updateApplicationStatus = (participationId: string, status: string) => {
-    const updated = selectedApplications.map((app) =>
-      app.participation_id === participationId ? { ...app, status } : app
-    );
-    setSelectedApplications(updated);
-    // TODO: Make API call to update application status
+    if (status === "approved") {
+      handleApprove(participationId);
+    } else {
+      // For reject, we'll keep the existing TODO for now
+      const updated = selectedApplications.map((app) =>
+        app.participation_id === participationId ? { ...app, status } : app
+      );
+      setSelectedApplications(updated);
+      // TODO: Make API call to update application status (reject)
+    }
   };
 
   // Show loading or error state if organization profile is not available
@@ -594,8 +642,16 @@ const OrganizationDashboard: React.FC = () => {
                   </p>
                   {application.status === "pending" && (
                     <div className="flex gap-2">
-                      <button className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition text-sm">
-                        Approve
+                      <button
+                        onClick={() =>
+                          handleApprove(application.participation_id)
+                        }
+                        disabled={approveParticipationMutation.isPending}
+                        className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {approveParticipationMutation.isPending
+                          ? "Approving..."
+                          : "Approve"}
                       </button>
                       <button className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition text-sm">
                         Reject
@@ -719,15 +775,18 @@ const OrganizationDashboard: React.FC = () => {
                     {application.status === "pending" && (
                       <div className="flex gap-2">
                         <button
-                          className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition text-sm"
+                          className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                           onClick={() =>
                             updateApplicationStatus(
                               application.participation_id,
                               "approved"
                             )
                           }
+                          disabled={approveParticipationMutation.isPending}
                         >
-                          Approve
+                          {approveParticipationMutation.isPending
+                            ? "Approving..."
+                            : "Approve"}
                         </button>
                         <button
                           className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition text-sm"
