@@ -1,8 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";  // ← ADD THIS
 
 interface OpportunityCardProps {
-  id: number; 
+  id: string | number; 
   title: string;
   organization: string;
   duration: string;
@@ -10,6 +9,8 @@ interface OpportunityCardProps {
   category: string;
   description: string;
   image?: string;
+  event?: any; // Full event object for modal
+  onViewDetails?: (event: any) => void;
 }
 
 const OpportunityCard: React.FC<OpportunityCardProps> = ({
@@ -21,7 +22,15 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({
   category,
   description,
   image,
+  event,
+  onViewDetails,
 }) => {
+  const handleClick = () => {
+    if (onViewDetails && event) {
+      onViewDetails(event);
+    }
+  };
+
   return (
     <div className="bg-white shadow-md rounded-2xl hover:shadow-lg transition">
       <div>
@@ -39,12 +48,12 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({
         <span className="text-green-600 font-medium">{category}</span>
         <p className="mt-2 text-gray-600 text-sm">{description}</p>
 
-        {/* ← REPLACE BUTTON WITH LINK */}
-        <Link to={`/event/${id}`}>
-          <button className="mt-3 bg-green-600 text-white py-2 px-4 rounded-xl hover:bg-green-700 w-full">
-            View Details
-          </button>
-        </Link>
+        <button
+          onClick={handleClick}
+          className="mt-3 bg-green-600 text-white py-2 px-4 rounded-xl hover:bg-green-700 w-full"
+        >
+          View Details
+        </button>
       </div>
     </div>
   );

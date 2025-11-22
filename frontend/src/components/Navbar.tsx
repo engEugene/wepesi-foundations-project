@@ -1,22 +1,84 @@
 import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import useAuthStore from "../lib/auth-store";
 import API from "../lib/api-client";
 
+interface OrganizationProfile {
+  id: string;
+  name: string;
+  description: string;
+  contact_email: string;
+  phone: string;
+  website: string;
+  address: string;
+  updated_at: string;
+}
+
+interface OrganizationProfileResponse {
+  organization: OrganizationProfile;
+}
+
+const fetchOrganizationProfile =
+  async (): Promise<OrganizationProfile | null> => {
+    try {
+      const response = await API.get<OrganizationProfileResponse>(
+        "/auth/my-organization-profile"
+      );
+      return response.data.organization;
+    } catch (error) {
+      console.error("Error fetching organization profile:", error);
+      return null;
+    }
+  };
+
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated, clearUser} = useAuthStore();
+  const { user, isAuthenticated, clearUser } = useAuthStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  // Fetch organization profile for organizations to get organization_id
+  const { data: organizationProfile } = useQuery({
+    queryKey: ["organizationProfile"],
+    queryFn: fetchOrganizationProfile,
+    enabled: !!user && user.role === "organization" && user.is_org_onboarded,
+  });
+
+  const getDashboardPath = () => {
+    if (!user) return "/";
+    if (user.role === "volunteer") return "/volunteer/dashboard";
+    if (user.role === "organization") {
+      if (!user.is_org_onboarded) return "/organization/onboard";
+      return "/organization/dashboard";
+    }
+    return "/";
+  };
+
+  const getProfilePath = () => {
+    if (!user) return "/profile";
+    if (user.role === "volunteer") {
+      return `/volunteers/${user.id}`;
+    }
+    if (user.role === "organization") {
+      // For organizations, use organization_id if available, otherwise use profile route
+      if (organizationProfile?.id) {
+        return `/organizations/${organizationProfile.id}`;
+      }
+      // Fallback to /profile which shows OrganizationProfileForm
+      return "/profile";
+    }
+    return "/profile";
+  };
 
   const navLinks = [
     { path: "/", label: "Home" },
     { path: "/opportunities", label: "Opportunities" },
-    { path: "/badges", label: "Badges" },
-    { path: "/contact", label: "Contact" },
+    // { path: "/badges", label: "Badges" },
+    // { path: "/contact", label: "Contact" },
   ];
 
   const handleLogout = async () => {
-    const res = await API.post("/auth/logout",{});
+    const res = await API.post("/auth/logout", {});
     if (res.status === 200) {
       clearUser();
       navigate("/signup");
@@ -50,6 +112,20 @@ const Navbar: React.FC = () => {
               </NavLink>
             </li>
           ))}
+          {isAuthenticated && user && (
+            <li>
+              <NavLink
+                to={getDashboardPath()}
+                className={({ isActive }) =>
+                  `text-gray-700 hover:text-green-600 transition ${
+                    isActive ? "font-semibold text-green-700" : ""
+                  }`
+                }
+              >
+                Dashboard
+              </NavLink>
+            </li>
+          )}
         </ul>
 
         {/* Right Side */}
@@ -60,7 +136,10 @@ const Navbar: React.FC = () => {
               className="w-10 h-10 rounded-full overflow-hidden border-2 border-green-600 focus:outline-none"
             >
               <img
-                src={user.avatar || `https://ui-avatars.com/api/?name=${user.username}`}
+                src={
+                  user.avatar ||
+                  `https://ui-avatars.com/api/?name=${user.username}`
+                }
                 alt="User Avatar"
                 className="w-full h-full object-cover"
               />
@@ -69,9 +148,10 @@ const Navbar: React.FC = () => {
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md py-2 border border-gray-100">
                 <button
-                  onClick={() => navigate("/profile")
-                    
-                  }
+                  onClick={() => {
+                    navigate(getProfilePath());
+                    setDropdownOpen(false);
+                  }}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                 >
                   Profile

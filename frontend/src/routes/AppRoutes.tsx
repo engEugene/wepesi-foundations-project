@@ -82,7 +82,7 @@ const AppRoutes = () => (
     <Route path="/profile" element={<Profile />} />
     <Route path="/contact" element={<Contact />} />
 
-    <Route path="/create-event" element={<EventCreationPage />} />
+    <Route path="/organization/create-event" element={<EventCreationPage />} />
     <Route
       path="/signup"
       element={

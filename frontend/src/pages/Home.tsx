@@ -3,14 +3,15 @@ import { homeContent } from "../data/content";
 
 const Home: React.FC = () => {
   return (
-    <section className="px-8 py-10 flex flex-col  items-center text-center">
+    <section className="px-8 py-10 flex flex-col items-center justify-center text-center min-h-screen max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-2">{homeContent.heroTitle}</h1>
       <p className="text-gray-600 mb-4">{homeContent.heroSubtitle}</p>
+
       <button className="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700">
         {homeContent.ctaButton}
       </button>
 
-      <div className="grid grid-cols-3 gap-6 mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10 w-full">
         {homeContent.stats.map((stat, i) => (
           <div key={i}>
             <h3 className="text-2xl font-semibold">{stat.number}</h3>
@@ -19,9 +20,9 @@ const Home: React.FC = () => {
         ))}
       </div>
 
-      <div className="mt-10">
+      <div className="mt-12 w-full">
         <h2 className="text-xl font-semibold mb-4">How It Works</h2>
-        <div className="grid sm:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {homeContent.howItWorks.map((step, i) => (
             <div key={i} className="bg-green-50 rounded-xl p-4">
               <h3 className="font-medium">{step.step}</h3>
