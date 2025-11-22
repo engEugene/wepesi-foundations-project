@@ -1,8 +1,11 @@
 from flask import Flask
+from flask_marshmallow import Marshmallow
 from flask_restful import Api, Resource
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+
+from app.routes.volunteer import VolunteerEvents
 from .config.database import db, bcrypt
 
 # Models
@@ -15,37 +18,37 @@ from .models.user_badges import UserBadge
 
 # Routes
 from .routes.auth import RegisterUser, LoginUser, LogoutUser, OnboardOrganisation
-from .routes.organization import EventManagement
+from .routes.organization import EventManagement, OrganizationSpecificEvents
 from .routes.participation import ApplyToEvent, ApproveParticipation, CompleteParticipation
 
-# NEW: Profile Resource
-class VolunteerProfile(Resource):
-    def get(self):
-        # Mock current user ID = 1 (replace with JWT later)
-        user = User.query.get(1)
-        if not user:
-            return {"error": "User not found"}, 404
+# # NEW: Profile Resource
+# class VolunteerProfile(Resource):
+#     def get(self):
+#         # Mock current user ID = 1 (replace with JWT later)
+#         user = User.query.get(1)
+#         if not user:
+#             return {"error": "User not found"}, 404
 
-        return {
-            "id": user.id,
-            "name": user.name,
-            "title": user.title or "Volunteer",
-            "bio": user.bio or "No bio yet.",
-            "hours": user.hours or 0,
-            "completedActivities": user.completed_activities or 0,
-            "badges": [ub.badge.name for ub in user.user_badges] if user.user_badges else [],
-            "avatar": user.avatar or "/static/images/default-avatar.png",
-            "impactStats": {
-                "treesPlanted": user.trees_planted or 0,
-                "workshopsLed": user.workshops_led or 0,
-                "plasticCollectedKg": user.plastic_collected_kg or 0
-            },
-            "socials": {
-                "instagram": user.instagram or "",
-                "linkedin": user.linkedin or "",
-                "x": user.twitter or ""
-            }
-        }
+#         return {
+#             "id": user.id,
+#             "name": user.name,
+#             "title": user.title or "Volunteer",
+#             "bio": user.bio or "No bio yet.",
+#             "hours": user.hours or 0,
+#             "completedActivities": user.completed_activities or 0,
+#             "badges": [ub.badge.name for ub in user.user_badges] if user.user_badges else [],
+#             "avatar": user.avatar or "/static/images/default-avatar.png",
+#             "impactStats": {
+#                 "treesPlanted": user.trees_planted or 0,
+#                 "workshopsLed": user.workshops_led or 0,
+#                 "plasticCollectedKg": user.plastic_collected_kg or 0
+#             },
+#             "socials": {
+#                 "instagram": user.instagram or "",
+#                 "linkedin": user.linkedin or "",
+#                 "x": user.twitter or ""
+#             }
+#         }
 
 def create_app(config_class="app.config.settings.DevelopmentConfig"):
     app = Flask(__name__)
@@ -67,6 +70,7 @@ def create_app(config_class="app.config.settings.DevelopmentConfig"):
     jwt = JWTManager(app)
     migrate = Migrate(app, db)
     api = Api(app)
+    ma = Marshmallow(app)
   
 
     # JWT user loader
@@ -84,8 +88,7 @@ def create_app(config_class="app.config.settings.DevelopmentConfig"):
     api.add_resource(ApplyToEvent, '/api/event/<string:event_id>/apply')
     api.add_resource(ApproveParticipation, '/api/participation/<string:participation_id>/approve')
     api.add_resource(CompleteParticipation, '/api/participation/<string:participation_id>/complete')
-    
-    # NEW: Add Profile Route
-    api.add_resource(VolunteerProfile, '/api/profile')
+    api.add_resource(OrganizationSpecificEvents, '/api/organization/<string:organization_id>/events')
+    api.add_resource(VolunteerEvents, '/api/volunteer/events')
 
     return app

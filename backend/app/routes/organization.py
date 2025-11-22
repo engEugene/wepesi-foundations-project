@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required, get_current_user, get_jwt_identity
 from app.config.database import db
 from app.models.events import Event
 from app.models.organizations import Organization
+from app.schema.event_schema import events_schema
 from datetime import datetime
 
 class EventManagement(Resource):
@@ -65,21 +66,45 @@ class EventManagement(Resource):
         if not events:
             return {"message": "No events found for this organization."}, 404
 
-        result = []
-        for e in events:
-            result.append({
-                "id": e.id,
-                "title": e.title,
-                "description": e.description,
-                "location": e.location,
-                "start_time": e.start_time.isoformat(),
-                "end_time": e.end_time.isoformat(),
-                "max_participants": e.max_participants,
-                "created_at": e.created_at.isoformat(),
-                "updated_at": e.updated_at.isoformat()
-            })
+        return {
+            "message": "Events retrieved successfully",
+            "events": events_schema.dump(events) 
+        },
 
-        return jsonify({
-            "message": "Events retrieved successfully.",
-            "events": result
-        })
+
+class OrganizationSpecificEvents(Resource):
+    @jwt_required()
+    def get(self, organization_id):
+  
+        current_user = get_current_user()
+
+        # 1. Check if the Organization exists
+        organization = Organization.query.get(organization_id)
+        if not organization:
+            return {"message": "Organization not found."}, 404
+
+        # 2. Base Query – fetch all events for this organization
+        events = (
+            Event.query
+            .filter_by(organization_id=organization_id)
+            .order_by(Event.created_at.desc())
+            .all()
+        )
+
+        # 3. Return the event list
+        return {
+            "message": f"Events for {organization.name}",
+            "count": len(events),
+            "events": [
+                {
+                    "id": e.id,
+                    "title": e.title,
+                    "description": e.description,
+                    "location": e.location,
+                    "start_time": e.start_time.isoformat(),
+                    "end_time": e.end_time.isoformat(),
+                    "participants_count": len(e.participations)
+                }
+                for e in events
+            ]
+        }, 200
