@@ -4,7 +4,7 @@
 
 \## Project Overview
 
-This project is a \*\*Student Volunteering Platform aimed at connecting students with volunteering opportunities through an easy-to-use online system.
+This project is a student volunteering platform designed to connect students with volunteering opportunities through an easy-to-use online system.
 
 
 
@@ -50,7 +50,7 @@ This project is a \*\*Student Volunteering Platform aimed at connecting students
 
 \## Database
 
-\- \*\*PostgreSQL\*\* in production, SQLite in development
+\- PostgreSQL in production, SQLite in development
 
 \- Core tables: `users`, `organizations`, `events`, `participations`, `badges`, `user\_badges`
 
