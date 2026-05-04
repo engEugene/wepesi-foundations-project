@@ -1,12 +1,9 @@
 \# Wepesi Foundations Project
-
-
+hello
 
 \## Project Overview
 
 This project is a student volunteering platform designed to connect students with volunteering opportunities through an easy-to-use online system.
-
-
 
 \## Frontend
 
@@ -16,7 +13,7 @@ This project is a student volunteering platform designed to connect students wit
 
 \- Communicates with backend APIs using Axios
 
-\- Pages include: 
+\- Pages include:
 
 &nbsp; - User onboarding (volunteer/organization)
 
@@ -25,8 +22,6 @@ This project is a student volunteering platform designed to connect students wit
 &nbsp; - Volunteer history and badges
 
 &nbsp; - Real-time updates on volunteering opportunities
-
-
 
 \## Backend
 
@@ -46,13 +41,8 @@ This project is a student volunteering platform designed to connect students wit
 
 \- Alembic manages schema migrations
 
-
-
 \## Database
 
 \- PostgreSQL in production, SQLite in development
 
 \- Core tables: `users`, `organizations`, `events`, `participations`, `badges`, `user\_badges`
-
-
-
